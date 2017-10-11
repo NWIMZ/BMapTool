@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			#zBdMap {
+				height: 400px;
+				width: 400px;
+			}
+		</style>
+		<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=1510247b4244370cbac3851e4f029d31"></script>
+	</head>
+
+	<body>
+		<label>小区/大厦/学校：</label>
+		<input type="text" id="suggestId" data-lng="" data-lat="" placeholder="" value="" />
+		<label>楼号/门牌号：</label>
+		<input type="text" />
+		<div id="zBdMap"></div>
+		<!--百度地图-->
+		<div id="searchResultPanel" style="border:1px solid #C0C0C0; height:auto; display:none;"></div>
+
+		<script type="text/javascript">
+			zGetBdMapSuggest();
+function zGetBdMapSuggest(){
+	//初始化百度地图
+	var map = new BMap.Map("zBdMap");
+	map.centerAndZoom("深圳", 12);
+	map.addControl(new BMap.MapTypeControl({mapTypes: [BMAP_NORMAL_MAP, BMAP_HYBRID_MAP]})); 
+	map.addControl(new BMap.MapTypeControl({anchor: BMAP_ANCHOR_TOP_RIGHT})); 
+	
+	//创建自动完成提示列表对象
+	var ac = new BMap.Autocomplete({
+		"input": "suggestId",
+		"location": map
+	});
+	//设置下拉列表内容
+	ac.addEventListener("onhighlight", function(e) { 
+		var suggestHtml = "";
+		var temp = "";
+		if(e.fromitem.index > -1) {
+			temp = e.fromitem.value.province + e.fromitem.value.city + e.fromitem.value.district + e.fromitem.value.street + e.fromitem.value.business;
+		}
+		suggestHtml = "FromItem<br />index = " + e.fromitem.index + "<br />value = " + temp;
+		temp = "";
+		if(e.toitem.index > -1) {
+			temp = e.toitem.value.province + e.toitem.value.city + e.toitem.value.district + e.toitem.value.street + e.toitem.value.business;
+		}
+		suggestHtml += "<br />ToItem<br />index = " + e.toitem.index + "<br />value = " + temp;
+		document.getElementById("searchResultPanel").innerHTML = suggestHtml;
+	});
+	
+	//下拉列表点击事件 -- 选择地址，设置lng lat
+	var suggesValue;
+	ac.addEventListener("onconfirm", function(e) {
+		suggesValue = e.item.value.province + e.item.value.city + e.item.value.district + e.item.value.street + e.item.value.business;
+		document.getElementById("searchResultPanel").innerHTML = "onconfirm<br />index = " + e.item.index + "<br />suggesValue = " + suggesValue;
+		//console.log(suggesValue);
+		map.clearOverlays(); //清除地图上所有覆盖物
+	
+		//智能地图搜索
+		var local = new BMap.LocalSearch(map, {
+			onSearchComplete: function(){//回调函数
+				console.log(123);
+				var firstPoint = local.getResults().getPoi(0).point; //获取第一个智能搜索的结果
+				map.centerAndZoom(firstPoint, 18);
+				var bdMapMarker = new BMap.Marker(firstPoint);
+				map.addOverlay(bdMapMarker); //添加标注
+				bdMapMarker.enableDragging();
+				bdMapMarker.addEventListener('dragend', function(e) {
+					var address = hotPointsp(e.point.lng, e.point.lat);//根据坐标解析位置
+					setLngLatAddress(e.point.lng,e.point.lat,"");
+				});
+				
+				setLngLatAddress(firstPoint.lng,firstPoint.lat,"");
+			}
+		});
+		local.search(suggesValue);
+	});
+		
+	//地图点击事件 -- 添加标注物，设置lng lat
+	map.addEventListener("click", function(e) {
+		map.clearOverlays();
+		var bdMapMarker=new BMap.Marker(new BMap.Point(e.point.lng, e.point.lat))
+		map.addOverlay(bdMapMarker);
+		bdMapMarker.enableDragging();
+		bdMapMarker.addEventListener('dragend', function(e) {
+			var address = hotPointsp(e.point.lng, e.point.lat);//根据坐标解析位置
+			setLngLatAddress(e.point.lng,e.point.lat,"");
+		});
+		setLngLatAddress(e.point.lng,e.point.lat,"");
+	});
+}
+			
+			function setLngLatAddress(lng,lat,address){
+				console.log(lng);
+				console.log(lat);
+				if(address==""){
+					address = hotPointsp(lng, lat);
+				}
+				$("#suggestId").attr("data-lng",lng);
+				$("#suggestId").attr("data-lat",lat);
+				$("#suggestId").val(address);
+			}
+			
+			
+			function hotPointsp(lng, lat) {
+				var p = '';
+				$.ajax({
+					type: 'post',
+					url: '../loan/loan_getGEO',
+					data: {
+						"lng": lng,
+						"lat": lat
+					},
+					async: false,
+					dataType: 'json',
+					success: function(data) {
+						if(data.result.formatted_address != "") {
+							p = data.result.formatted_address;
+
+						} else {
+							p = "";
+						}
+					}
+				})
+				return p;
+			}
+		</script>
+	</body>
+
+</html>

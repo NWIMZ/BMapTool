@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>方法</title>
+		<style>
+			*{margin: 0;padding: 0;}
+			html,body,#myMap{width: 100%;height: 100%;}
+		</style>
+	</head>
+	<body>
+		<div id="myMap"></div>
+		<script src="https://api.map.baidu.com/api?v=2.0&ak=QPLZeSxBGuR6IEkbtEGchaREPTIUbELa&s=1"></script>
+		<script>
+			var map = new BMap.Map("myMap");       
+			map.centerAndZoom(new BMap.Point(116.4035,39.915),8);
+			
+			setTimeout(function(){
+				map.panTo(new BMap.Point(113.262232,23.154345));	//两秒后移动到广州
+				map.setZoom(14);		//放大到14级
+				//map.disableDragging();	//禁止拖拽
+				map.enableDragging();	//两秒后开启拖拽
+				//map.enableInertialDragging();	//两秒后开启惯性拖拽
+			}, 2000);
+			
+			
+		</script>
+	</body>
+</html>

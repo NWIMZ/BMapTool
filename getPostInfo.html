@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>通过经纬度获取地理位置信息</title>
+	</head>
+	<body>
+		<input type="text" placeholder="lng" id="lng" />
+		<input type="text" placeholder="lat" id="lat" />
+		<input type="button" value="获取" id="getAddress" />
+		<p id="address"></p>
+		
+		<script>
+			//通过经纬度获取位置信息
+			var oP = document.getElementById("address");
+			var oBtn = document.getElementById("getAddress");
+			var lat = 0;
+			var lng = 0;
+			function show(result){
+				console.log(result);
+				oP.innerHTML = result.result.formatted_address + result.result.sematic_description;
+				//document.documentElement.removeChild(oScript);
+			}
+			oBtn.onclick = function(){
+				lng = document.getElementById("lng").value;
+				lat = document.getElementById("lat").value;
+				var oScript = document.createElement("script");
+				oScript.src = "https://api.map.baidu.com/geocoder/v2/?ak=QPLZeSxBGuR6IEkbtEGchaREPTIUbELa&callback=show&location="+lat+","+lng+"&output=json&pois=1";
+				document.documentElement.appendChild(oScript);
+				document.documentElement.removeChild(oScript);
+			}
+			
+
+		</script>
+	</body>
+</html>
