@@ -3,33 +3,64 @@
 	<head>
 		<meta charset="utf-8" />
 		<title>通过经纬度获取地理位置信息</title>
+		<link rel="stylesheet" href="css/reset.css" />
+		<link rel="stylesheet" href="css/public.css" />
+		<style>
+			#address{
+				margin-left: 20px;
+				font-size: 16px;
+			}
+		</style>
 	</head>
 	<body>
-		<input type="text" placeholder="lng" id="lng" />
-		<input type="text" placeholder="lat" id="lat" />
-		<input type="button" value="获取" id="getAddress" />
-		<p id="address"></p>
+		<div>
+			<input type="text" placeholder="lng" id="pLng" />
+			<input type="text" placeholder="lat" id="pLat" />
+			<input type="button" value="获取" id="getAddress" />
+			<span id="address"></span>
+		</div>
 		
 		<script>
+			var ak = "QPLZeSxBGuR6IEkbtEGchaREPTIUbELa";//百度地图ak
+			(function(){
+				var oP = document.getElementById("address");
+				var oGetAddressBtn = document.getElementById("getAddress");
+				var oLat = document.getElementById("pLat");
+				var oLng = document.getElementById("pLng");
+				
+				oGetAddressBtn.onclick = function(){
+					var lng = oLng.value;
+					var lat = oLat.value;
+					getAddress(lng,lat,"show");
+				}
+				oLat.addEventListener("keyup",function(){
+					if(event.keyCode==13){
+						var lng = oLng.value;
+						var lat = oLat.value;
+						getAddress(lng,lat,"show");
+					}
+						
+				});
+				oLng.addEventListener("keyup",function(){
+					if(event.keyCode==13){
+						var lng = oLng.value;
+						var lat = oLat.value;
+						getAddress(lng,lat,"show");
+					}
+				})
+				var getAddress = function(lng,lat,cb){
+					var oScript = document.createElement("script");
+					oScript.src = "https://api.map.baidu.com/geocoder/v2/?ak=" + ak + "&callback=" + cb + "&location="+lat+","+lng+"&output=json&pois=1";
+					
+					window.show = function(result){
+						console.log(result);
+						oP.innerHTML = result.result.formatted_address + result.result.sematic_description;
+					}
+					document.documentElement.appendChild(oScript);
+					document.documentElement.removeChild(oScript);
+				}
+			})()
 			//通过经纬度获取位置信息
-			var oP = document.getElementById("address");
-			var oBtn = document.getElementById("getAddress");
-			var lat = 0;
-			var lng = 0;
-			function show(result){
-				console.log(result);
-				oP.innerHTML = result.result.formatted_address + result.result.sematic_description;
-				//document.documentElement.removeChild(oScript);
-			}
-			oBtn.onclick = function(){
-				lng = document.getElementById("lng").value;
-				lat = document.getElementById("lat").value;
-				var oScript = document.createElement("script");
-				oScript.src = "https://api.map.baidu.com/geocoder/v2/?ak=QPLZeSxBGuR6IEkbtEGchaREPTIUbELa&callback=show&location="+lat+","+lng+"&output=json&pois=1";
-				document.documentElement.appendChild(oScript);
-				document.documentElement.removeChild(oScript);
-			}
-			
 
 		</script>
 	</body>
