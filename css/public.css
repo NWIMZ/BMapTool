@@ -29,13 +29,6 @@ html,body{height: 100%;}
 body{background: #040404;color: #fff;}
 
 /*表单控件*/
-label{
-	color: #fff;
-	width: 50px;
-	padding-right: 10px;
-	display: inline-block;
-	text-align: right;
-}
 input[type=text],select{
 	width: 220px;
 	box-sizing: border-box;
@@ -53,7 +46,6 @@ input[type=button]{
 	font-weight: 100;
 	border: none;
 	background-color: #07121d;
-	color: #fff;
 	border: 1px solid rgba(255,255,255,0.3);
 	padding-left: 10px;
 	padding-right: 10px;

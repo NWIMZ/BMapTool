@@ -12,8 +12,16 @@
 		<div id="myMap"></div>
 		<script src="https://api.map.baidu.com/api?v=2.0&ak=QPLZeSxBGuR6IEkbtEGchaREPTIUbELa&s=1"></script>
 		<script>
-			var map = new BMap.Map("myMap");       
-			map.centerAndZoom(new BMap.Point(116.4035,39.915),8);
+			var map = new BMap.Map("myMap");	//创建Map实例。此时还什么都没发生
+			//var map = new BMap.Map("allmap",{minZoom:4,maxZoom:8});		//创建Map实例,设置地图允许的最小/大级别
+			
+			map.centerAndZoom(new BMap.Point(116.404, 39.915), 11);	//初始化地图,设置中心点坐标和地图级别。此时地图界面已经加载出来
+			map.centerAndZoom("上海",15);		//用城市名设置地图中心点
+			
+			map.addControl(new BMap.MapTypeControl());	//添加地图类型控件。右上角多出地图 卫星 三维的选项
+			map.setCurrentCity("北京");			//设置地图显示的城市，此项是必须设置的。没有什么改变
+			map.enableScrollWheelZoom(true);	//开启鼠标滚轮缩放。
+			
 			
 			setTimeout(function(){
 				map.panTo(new BMap.Point(113.262232,23.154345));	//两秒后移动到广州
