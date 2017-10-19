@@ -18,8 +18,12 @@
         <div id="searchResultPanel" style="border:1px solid #C0C0C0; height:auto; display:none;"></div>
         
         <script type="text/javascript">
-            var m = new BMap.Map("l-map");
-            m.centerAndZoom("北京", 12); // 初始化地图,设置城市和地图级别。
+        	window.onload = function(){
+        		var m = new BMap.Map("l-map");
+	        	m.centerAndZoom("北京", 12); // 初始化地图,设置城市和地图级别。
+	        	var ac = new MapAc(m,"suggestId","searchResultPanel");
+        	}
+            
             
             function MapAc(map,acInputId,searchResultPanel){
             	this.ac = new BMap.Autocomplete({ //建立一个自动完成的对象
@@ -71,7 +75,6 @@
                 this.map.centerAndZoom(pp, 18);
                 this.map.addOverlay(new BMap.Marker(pp)); //添加标注
 			}
-		 var ac = new MapAc(m,"suggestId","searchResultPanel");
         </script>
     </body>
 </html>
