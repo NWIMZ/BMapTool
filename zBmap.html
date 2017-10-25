@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			#map{
+				width: 1000px;
+				height: 500px;
+			}
+		</style>
+	</head>
+	<body>
+		
+		<div id="map"></div>
+		<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=QPLZeSxBGuR6IEkbtEGchaREPTIUbELa"></script>
+		
+		<script type="text/javascript" src="js/zBmap.js" ></script>
+		<script type="text/javascript">
+			var zmap = new ZBMap("map");
+			zmap.loadMark({lng: 116.404,lat: 39.915,deviceId: 1})
+		</script>
+	</body>
+</html>

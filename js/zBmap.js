@@ -1,12 +1,14 @@
-//2017.10.19
+//2017.10.25
 // 百度地图
 function ZBMap(id,option){
 	this.map = new BMap.Map(id);
 	this.aPoints = {};// 坐标点
 	this.aMarkers = {};// 标记物
-	this.init();
+	this.lng = "116.404";
+	this.lat = "39.915";
+	this.zoom = 11;
 	
-	return this.map;
+	this.init();
 }
 //加载百度地图
 ZBMap.prototype.init = function(){
@@ -20,8 +22,8 @@ ZBMap.prototype.init = function(){
     map.addControl(new BMap.ScaleControl({ anchor: BMAP_ANCHOR_BOTTOM_LEFT }));
     map.addControl(new BMap.OverviewMapControl());	//添加默认缩略地图控件
     map.addControl(new BMap.OverviewMapControl({ isOpen: false, anchor: BMAP_ANCHOR_BOTTOM_RIGHT }));   //右下角，打开
-	
-	map.centerAndZoom(new BMap.Point(116.404, 39.915), 11);
+	debugger
+	map.centerAndZoom(new BMap.Point(this.lng, this.lat ), this.zoom);
 	var Panorama=map.getPanorama();
 	Panorama.setOptions({
 	    closeControl:true
