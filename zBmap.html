@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-		<title></title>
+		<title>zmap</title>
 		<style type="text/css">
 			#map{
 				width: 1000px;
@@ -19,6 +19,7 @@
 		<script type="text/javascript" src="js/zBmap.js" ></script>
 		<script type="text/javascript">
 			var zmap = new ZBMap("map");
+			var map = zmap.init();
 			zmap.loadMark({lng: 116.404,lat: 39.915,deviceId: 1})
 		</script>
 	</body>

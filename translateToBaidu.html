@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 		<link rel="stylesheet" href="css/reset.css" />
@@ -24,8 +25,8 @@
 		<div id="allmap"></div>
 		<div id="ctrl">
 			<p>
-				<input type="text" placeholder="lng" id="pLng" value="113.70077" />
-				<input type="text" placeholder="lat" id="pLat" value="23.034817" />
+				<input type="text" placeholder="lng" id="pLng" />
+				<input type="text" placeholder="lat" id="pLat" />
 				<input type="button" value="转换" id="getAddress" />
 			</p>
 			<table>
@@ -55,12 +56,16 @@
 				var oTranslate = document.getElementById("getAddress");
 				var oLng = document.getElementById("pLng");
 				var oLat = document.getElementById("pLat");
+
+				// 按钮点击事件
 				oTranslate.addEventListener("click",function(){
 					var lng = oLng.value;
 					var lat = oLat.value;
-					
+
+					// 原始点
 					var rawPoint = new BMap.Point(lng, lat);
 					map.addOverlay(rawPoint);
+
 					var rawLabel = new BMap.Label("未转换的GPS坐标（原始）<br />lng:" + lng + "<br />lat:" + lat, {
 						offset: new BMap.Size(20, -10)
 					});
@@ -68,6 +73,7 @@
 					map.addOverlay(rawMarker);
 					rawMarker.setLabel(rawLabel);
 					
+
 					var pointArr = [];// 坐标数组
 					pointArr.push(rawPoint);
 					
@@ -91,6 +97,9 @@
 					});
 				})
 				
+				/**
+				 * 转成百度坐标
+				 */
 				function translateToBaidu(pointArr,map,cb){
 					for(var i=0;i<pointArr.length;i++){
 						var lng = pointArr[i].lng;
@@ -103,7 +112,6 @@
 						}
 					})
 				}
-				
 			})()
 
 			
