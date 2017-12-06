@@ -1,5 +1,10 @@
 //2017.10.25
 // 百度地图
+/**
+ * 
+ * @param {string} id 地图元素id
+ * @param {Object} option 选项
+ */
 function ZBMap(id,option){
 	this.map = new BMap.Map(id);
 	this.aPoints = {};// 坐标点
@@ -22,7 +27,6 @@ ZBMap.prototype.init = function(){
     map.addControl(new BMap.ScaleControl({ anchor: BMAP_ANCHOR_BOTTOM_LEFT }));
     map.addControl(new BMap.OverviewMapControl());	//添加默认缩略地图控件
     map.addControl(new BMap.OverviewMapControl({ isOpen: false, anchor: BMAP_ANCHOR_BOTTOM_RIGHT }));   //右下角，打开
-	debugger
 	map.centerAndZoom(new BMap.Point(this.lng, this.lat ), this.zoom);
 	var Panorama=map.getPanorama();
 	Panorama.setOptions({
@@ -127,4 +131,35 @@ MapAc.prototype.searchComplete = function(){
 	this.map.addOverlay(bdMapMarker); //添加标注
 	
     this.callback && this.callback(firstPoint);
+}
+
+
+
+/**
+ * 原始坐标转换成百度坐标
+ * @param {array} pointArr 百度坐标点数组
+ * @param {function} cb 转换完的回调，接受一个入参：转换完成后的点组成的数组
+ */
+ZBMap.prototype.translateToBaidu = function (pointArr, cb) {
+    if (!this.convertor) {
+        this.convertor = new BMap.Convertor();
+    }
+    var convertor = this.convertor;
+
+    /* http://lbsyun.baidu.com/index.php?title=webapi/guide/changeposition
+    from:源坐标类型：
+    1：GPS设备获取的角度坐标，wgs84坐标;
+    2：GPS获取的米制坐标、sogou地图所用坐标;
+    3：google地图、soso地图、aliyun地图、mapabc地图和amap地图所用坐标，国测局（gcj02）坐标;
+    4：3中列表地图坐标对应的米制坐标;
+    5：百度地图采用的经纬度坐标;
+    6：百度地图采用的米制坐标;
+    7：mapbar地图坐标;
+    8：51地图坐标
+
+    to:目标坐标类型：
+    5：bd09ll(百度经纬度坐标),
+    6：bd09mc(百度米制经纬度坐标);
+    */
+    convertor.translate(pointArr, 1, 5, cb);
 }

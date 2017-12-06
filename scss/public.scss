@@ -1,0 +1,76 @@
+@charset "utf-8";
+/*文字对齐*/
+.text-left {text-align: left;}
+.text-right {text-align: right;}
+.text-center {text-align: center;}
+.text-justify {text-align: justify;}
+.text-nowrap {white-space: nowrap;}
+
+/*浮动*/
+.child-fl>*{float: left;}
+.child-fl:after,.cl:after,.clearfix:after{content: "";display: block;clear: both;}
+.fl{float: left;}
+.fr{float: right;}
+
+/*尺寸相关*/
+.mb0{margin-bottom: 0!important;}
+.fs-18{font-size: 18px!important;}
+.w320{width: 320px;}
+/*颜色相关*/
+.red{color: red;}
+.orange{color: #f39538;}
+.bg-red{background-color: red;}
+
+.border{
+	border: 1px solid red;
+	box-sizing: border-box;
+}
+/*====================END====================*/
+html,body{height: 100%;}
+body{background: #040404;color: #fff;}
+
+/*表单控件*/
+input[type=text],select{
+	width: 220px;
+	box-sizing: border-box;
+	margin: 6px;
+	padding-left: 10px;
+	font-size: 18px;
+	border: none;
+	height: 38px;
+	background-color: #07121d;
+	border: 1px solid rgba(255,255,255,0.3);
+}
+input[type=button]{
+	height: 38px;
+	font-size: 16px;
+	font-weight: 100;
+	border: none;
+	background-color: #07121d;
+	border: 1px solid rgba(255,255,255,0.3);
+	padding-left: 10px;
+	padding-right: 10px;
+	transition: all 0.2s;
+}
+textarea{
+	background-color: #07121d;
+	border: 1px solid rgba(255,255,255,0.3);
+}
+
+/* 表格 */
+table{
+    td,th{
+        border: 1px solid #fff;
+        padding: 10px;
+        text-align: center;
+    }
+}
+
+/*MAIN CSS START*/
+.main{
+	width: 960px;
+	margin: 0 auto;
+}
+h2{
+	color: #fff;
+}
