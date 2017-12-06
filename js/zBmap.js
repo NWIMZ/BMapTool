@@ -27,6 +27,10 @@ ZBMap.prototype.init = function(){
     map.addControl(new BMap.ScaleControl({ anchor: BMAP_ANCHOR_BOTTOM_LEFT }));
     map.addControl(new BMap.OverviewMapControl());	//添加默认缩略地图控件
     map.addControl(new BMap.OverviewMapControl({ isOpen: false, anchor: BMAP_ANCHOR_BOTTOM_RIGHT }));   //右下角，打开
+
+    debugger
+    map.enableContinuousZoom();// 启用连续缩放效果
+
 	map.centerAndZoom(new BMap.Point(this.lng, this.lat ), this.zoom);
 	var Panorama=map.getPanorama();
 	Panorama.setOptions({
