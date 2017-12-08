@@ -1,4 +1,10 @@
 @charset "utf-8";
+// vars
+$active-color: #fff;
+
+
+
+
 /*文字对齐*/
 .text-left {text-align: left;}
 .text-right {text-align: right;}
@@ -40,6 +46,10 @@ input[type=text],select{
 	height: 38px;
 	background-color: #07121d;
 	border: 1px solid rgba(255,255,255,0.3);
+
+	&:focus{
+		border-color: $active-color;
+	}
 }
 input[type=button]{
 	height: 38px;
@@ -51,6 +61,10 @@ input[type=button]{
 	padding-left: 10px;
 	padding-right: 10px;
 	transition: all 0.2s;
+	&:hover{
+		color: $active-color;
+		border-color: $active-color;
+	}
 }
 textarea{
 	background-color: #07121d;
