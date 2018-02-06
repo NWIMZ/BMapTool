@@ -35,8 +35,13 @@
 					<th>blat</th>
 					<th>lng_offset</th>
 					<th>lat_offset</th>
+
+					<th>lng_xz</th>
+					<th>lat_xz</th>
 				</tr>
 				<tr id="result">
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
 					<td>&nbsp;</td>
 					<td>&nbsp;</td>
 					<td>&nbsp;</td>
@@ -59,8 +64,12 @@
 
 				// 按钮点击事件
 				oTranslate.addEventListener("click",function(){
+					map.clearOverlays();
 					var lng = oLng.value;
 					var lat = oLat.value;
+
+					var xzPoint = xz(lng,lat);
+					creatPoint({map,lng:xzPoint.lng,lat:xzPoint.lat});
 
 					// 原始点
 					var rawPoint = new BMap.Point(lng, lat);
@@ -87,11 +96,15 @@
 						});
 						marker.setLabel(label); //添加百度label
 						map.setCenter(point);
+
 						
 						var html = `<td>${point.lng}</td>
 									<td>${point.lat}</td>
 									<td>${point.lng - lng}</td>
 									<td>${point.lat - lat}</td>
+									<td>${xzPoint.lng}</td>
+									<td>${xzPoint.lat}</td>
+									
 									`
 						oResult.innerHTML = html;
 					});
@@ -113,6 +126,29 @@
 					})
 				}
 			})()
+
+			function creatPoint({lng,lat,map}){
+				var point = new BMap.Point(lng,lat);
+				var marker = new BMap.Marker(point);
+				var label = new BMap.Label("公式计算的坐标<br />" + "lng_xz:" + point.lng + "<br />lat_xz:" + point.lat, {
+					offset: new BMap.Size(20, -10)
+				});
+				marker.setLabel(label);
+				map.addOverlay(marker);
+			}
+
+
+			function xz(lng,lat){
+				var x_pi = 3.14159265358979324 * 3000.0 / 180.0;
+				//alert(x_pi);
+		
+				var x =lng , y = lat;
+				var z =Math.sqrt(x * x + y * y) + 0.00002 *Math.sin(y * x_pi);
+				var theta =Math.atan2(y, x) + 0.000003 * Math.cos(x * x_pi);
+				var lng = z *  Math.cos(theta) + 0.0065;
+				var lat = z *  Math.sin(theta) + 0.006;
+				return {lng,lat}
+			}
 
 			
 					
